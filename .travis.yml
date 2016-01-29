@@ -8,6 +8,7 @@ before_install:
   - "npm install -g mocha"
   - "npm install -g istanbul"
   - "npm install -g gulp"
+  - "npm install"
   - "npm run build"
 script:
   - "npm run test-ci"
