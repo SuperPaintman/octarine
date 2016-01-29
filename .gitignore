@@ -1,2 +1,8 @@
 # Modules
 node_modules/
+
+# Coverage
+coverage/
+
+# Log
+npm-debug.log
