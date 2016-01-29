@@ -1,0 +1,29 @@
+{
+  "name": "octarine",
+  "version": "0.0.1",
+  "description": "The actor model for Node.js",
+  "main": "bin/app.js",
+  "author": {
+    "name": "SuperPaintman",
+    "email": "SuperPaintmanDeveloper@gmail.com",
+    "url": "http://flatdev.ru/"
+  },
+  "scripts": {
+    "start": "coffee ./development/app.coffee"
+  },
+  "keywords": [],
+  "files": [
+    "development",
+    "bin",
+    "README.md"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SuperPaintman/octarine.git"
+  },
+  "devDependencies": {
+    "assert": "^1.3.0",
+    "mocha": "^2.4.5"
+  }
+}
