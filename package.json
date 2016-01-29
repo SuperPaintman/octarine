@@ -22,7 +22,8 @@
   "files": [
     "development",
     "bin",
-    "README.md"
+    "README.md",
+    "README"
   ],
   "license": "MIT",
   "repository": {

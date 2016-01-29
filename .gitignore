@@ -6,3 +6,6 @@ coverage/
 
 # Log
 npm-debug.log
+
+# Psd
+*.psd

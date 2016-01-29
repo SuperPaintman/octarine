@@ -1,5 +1,4 @@
 "use strict"
-
 assert      = require 'assert'
 
 octarine    = require '../master'

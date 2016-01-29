@@ -1,4 +1,5 @@
 "use strict"
+Promise     = require 'bluebird'
 
 module.exports.defer = ->
     resolve = undefined

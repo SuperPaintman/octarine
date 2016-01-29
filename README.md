@@ -6,6 +6,8 @@
 [![NPM Downloads][npm-dm-image]][npm-url]
 [![Test Coverage][coveralls-image]][coveralls-url]
 
+[![Logo](/README/logo.png)][npm-url]
+
 The actor model for Node.js
 
 
