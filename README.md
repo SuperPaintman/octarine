@@ -18,13 +18,58 @@ npm install octarine --save
 
 ## Usage
 
+```js
+const co = require('co');
+const go = require('octarine');
+
+function fakeCoroutine(result) {
+    return new Promise((resolve, reject) => {
+        setTimeout(()=>{
+            resolve(result);
+        }, 300);
+    });
+}
+
+co(function* () {
+    // runs as new process
+    const result = yield go(fakeCoroutine, ['Terry Pratchett']);
+
+    console.log(result); // logs 'Terry Pratchett' after 3s.
+}).catch((err) => {
+    console.log(err.toString());
+});
+```
+
 --------------------------------------------------------------------------------
 
 ## API
+### octarine(fn, attr)
+**Arguments**
+* **fn** {`Function`} - function runs as a coroutine
+* **args** {`Any[]`}  - arguments passed to the function
+
+**Returns**
+* {`Promise`}
+
+**Example**
+
+```js
+const go = require('octarine');
+
+go(() => {
+    return "hello"; // Or any value, function, promise...
+}).then((res) => {
+    console.log(res); // "hello"
+});
+```
 
 --------------------------------------------------------------------------------
 
 ## Changelog
+### 0.1.0 [`Unstable`]
+```diff
++ First realise
+```
 
 --------------------------------------------------------------------------------
 
