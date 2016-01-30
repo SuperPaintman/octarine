@@ -16,6 +16,26 @@ Worker = (function() {
     this._unwrapFunction = bind(this._unwrapFunction, this);
   }
 
+
+  /**
+   * Десериализует функцию.
+   * Функция приходят в формате:
+   * ";({
+   *   func - Base64
+   *   args - Any[]
+   * });"
+   *
+   * Возвращает:
+   * {
+   *   func
+   *   args
+   * }
+   * 
+   * @param  {String} fn
+   * 
+   * @return {Object}
+   */
+
   Worker.prototype._unwrapFunction = function(fn) {
     var args, data, func;
     data = eval(fn);
@@ -27,6 +47,19 @@ Worker = (function() {
       args: args
     };
   };
+
+
+  /**
+   * Сериализует результат.
+   * Результат возвращается в формате Ж
+   * ";({
+   *   result - Any/Base64 если это функция
+   *   type   - String
+   * });"
+   * 
+   * @param  {Any} res [description]
+   * @return {[type]}     [description]
+   */
 
   Worker.prototype._wrapResult = function(res) {
     var answer;
@@ -41,6 +74,11 @@ Worker = (function() {
     answer = JSON.stringify(answer);
     return ";(\'" + answer + "\');";
   };
+
+
+  /**
+   * Начитает слущать сообщения
+   */
 
   Worker.prototype.start = function() {
     return process.on("message", (function(_this) {
@@ -62,6 +100,12 @@ Worker = (function() {
       };
     })(this));
   };
+
+
+  /**
+   * Отвечает родительскому процессу
+   * @param  {String} res
+   */
 
   Worker.prototype.ack = function(res) {
     return process.send(this._wrapResult(res));

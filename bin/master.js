@@ -26,6 +26,21 @@ Master = (function() {
     };
   }
 
+
+  /**
+   * Сериализует функцию для передачи ее как сообщение.
+   * Сообщение возвращается в формате 
+   * ";({
+   *   func - Base64
+   *   args - Any[]
+   * });"
+   * 
+   * @param  {Function} fn
+   * @param  {Any[]}    [args=[]]  - аргументы, передаваемые в функцию
+   * 
+   * @return {String}
+   */
+
   Master.prototype._wrapFunction = function(fn, args) {
     var answer;
     if (args == null) {
@@ -39,6 +54,20 @@ Master = (function() {
     return ";(\'" + answer + "\');";
   };
 
+
+  /**
+   * Десериализует ответ.
+   * Результаты приходят в формате:
+   * ";(
+   *   result - Any/Base64 если это функция
+   *   type   - String
+   * );"
+   * 
+   * @param  {String} res
+   * 
+   * @return {Any}
+   */
+
   Master.prototype._unwrapResult = function(res) {
     var data;
     data = eval(res);
@@ -49,6 +78,15 @@ Master = (function() {
       return data.result;
     }
   };
+
+
+  /**
+   * Запускает корутину
+   * @param  {Function} fn            - функция, которая будет сериализована
+   * @param  {Any[]}    [args=[]]     - аргументы передаваемые в функцию
+   * 
+   * @return {Promise}
+   */
 
   Master.prototype.start = function(fn, args) {
     var p, worker;

@@ -18,6 +18,19 @@ class Master
             cmd: "node"
         }
 
+    ###*
+     * Сериализует функцию для передачи ее как сообщение.
+     * Сообщение возвращается в формате 
+     * ";({
+     *   func - Base64
+     *   args - Any[]
+     * });"
+     * 
+     * @param  {Function} fn
+     * @param  {Any[]}    [args=[]]  - аргументы, передаваемые в функцию
+     * 
+     * @return {String}
+    ###
     _wrapFunction: (fn, args = [])=>
         fn = fn.toString()
 
@@ -26,8 +39,20 @@ class Master
         answer.args = args
 
         answer = JSON.stringify(answer)
-        ";(\'#{answer}\');"
+        return ";(\'#{answer}\');"
 
+    ###*
+     * Десериализует ответ.
+     * Результаты приходят в формате:
+     * ";(
+     *   result - Any/Base64 если это функция
+     *   type   - String
+     * );"
+     * 
+     * @param  {String} res
+     * 
+     * @return {Any}
+    ###
     _unwrapResult: (res)=>
         data = eval res
         data = JSON.parse(data)
@@ -37,6 +62,13 @@ class Master
         else
             return data.result
 
+    ###*
+     * Запускает корутину
+     * @param  {Function} fn            - функция, которая будет сериализована
+     * @param  {Any[]}    [args=[]]     - аргументы передаваемые в функцию
+     * 
+     * @return {Promise}
+    ###
     start: (fn, args = [])=>
         p = utils.defer()
 
