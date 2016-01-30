@@ -108,7 +108,7 @@ Worker = (function() {
    */
 
   Worker.prototype.ack = function(res) {
-    return process.send(this._wrapResult(res));
+    return _.once(process.send(this._wrapResult(res)));
   };
 
   return Worker;
@@ -117,4 +117,13 @@ Worker = (function() {
 
 worker = new Worker();
 
-worker.start();
+if (!module.parent) {
+  worker.start();
+} else {
+
+  /**
+   * Отправка ответа
+   * @type {Function}
+   */
+  module.exports = worker.ack;
+}

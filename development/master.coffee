@@ -1,5 +1,6 @@
 "use strict"
 cp          = require 'child_process'
+path        = require 'path'
 
 Promise     = require 'bluebird'
 _           = require 'lodash'
@@ -69,7 +70,7 @@ class Master
      * 
      * @return {Promise}
     ###
-    start: (fn, args = [])=>
+    _startEval: (fn, args = [])=>
         p = utils.defer()
 
         worker = cp.fork("#{__dirname}/worker", [], {
@@ -96,5 +97,64 @@ class Master
 
         return p.promise
 
+    ###*
+     * Запускает собственный воркер пользователя из файла
+     * @param  {String}   pathToFile    - путь до фала
+     * @param  {Any[]}    [args=[]]     - аргументы передаваемые в форк
+     * 
+     * @return {Promise}
+    ###
+    _startFork: (pathToFile, args = [])=>
+        p = utils.defer()
+
+        cwd = process.cwd()
+
+        unless path.isAbsolute(pathToFile)
+            parentDir = path.parse(module.parent.filename).dir
+            pathToFile = path.join(parentDir, pathToFile)
+
+        # else
+        #     pathToFile = pathToFile
+
+        worker = cp.fork(pathToFile, args, {
+            silent: true
+        })
+
+        # Reverse std streams
+        worker.stdout.pipe process.stdout
+        # worker.stderr.pipe process.stderr
+
+        worker.on "message", (msg)=>
+            worker.kill()
+            p.resolve @._unwrapResult(msg)
+
+        ###*
+         * @todo решить вопрос с невозвращающимися ошибками
+        ###
+        # worker.on error, (error)=>
+        worker.stderr.on "data", (data)=>
+            worker.kill()
+            p.reject(new Error(data))
+
+        return p.promise
+
+    ###*
+     * Запускает корутину
+     * @param  {Function|String}  data - функция корутины / путь до файла
+     * @param  {Any}              args
+     * @return {Any}
+    ###
+    start: (data, args)=>
+        if _.isFunction(data)
+            @._startEval(data, args)
+        else if _.isString(data)
+            @._startFork(data, args)
+        else
+            throw new Error("Unsupported message type")
+
 master = new Master()
+###*
+ * Корутина
+ * @type {Function}
+###
 module.exports = master.start

@@ -20,6 +20,8 @@ npm install octarine --save
 
 ## Usage
 
+**Start coroutine from function**
+
 ```js
 const co = require('co');
 const go = require('octarine');
@@ -40,6 +42,34 @@ co(function* () {
 }).catch((err) => {
     console.log(err.toString());
 });
+```
+
+**of from own file**
+
+`main.js`:
+
+```js
+/** main.js */
+const co = require('co');
+const go = require('octarine');
+
+co(function* () {
+    // runs as new process
+    const result = yield go("./myCoroutine.js");
+
+    console.log(result); // logs 'Terry Pratchett' after 3s.
+}).catch((err) => {
+    console.log(err.toString());
+});
+```
+
+`myCoroutine.js`:
+
+```js
+/** myCoroutine.js */
+const ack = require('octarine/ack');
+
+ack('Terry Pratchett');
 ```
 
 --------------------------------------------------------------------------------
@@ -65,9 +95,59 @@ go(() => {
 });
 ```
 
+
+### octarine(path, attr)
+**Arguments**
+* **fn** {`Function`} - path to coroutine file
+* **args** {`Any[]`}  - process arguments
+
+**Returns**
+* {`Promise`}
+
+**Example**
+
+`main.js`
+
+```js
+/** main.js */
+const go = require('octarine');
+
+go("myCoroutine.js").then((res) => {
+    console.log(res); // "hello"
+});
+```
+
+`myCoroutine.js`
+
+```js
+/** myCoroutine.js */
+const ack = require('octarine/ack');
+
+ack("hello");
+```
+
+
+### ack(result)
+**Arguments**
+* **result** {`Any`}
+
+**Example**
+
+```js
+/** myCoroutine.js */
+const ack = require('octarine/ack');
+
+ack("hello");
+```
+
 --------------------------------------------------------------------------------
 
 ## Changelog
+### 0.2.0 [`Unstable`]
+```diff
++ Run coroutine from file
+```
+
 ### 0.1.0 [`Unstable`]
 ```diff
 + First realise

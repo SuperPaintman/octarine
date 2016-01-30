@@ -143,3 +143,80 @@ describe("octarine(fn, attr)", function() {
    * @todo  настроить возврат функции
    */
 });
+
+describe("octarine(path)", function() {
+  it("should returns number - absolute path", function() {
+    this.slow(1000);
+    return octarine(__dirname + "/helps/coroutine_number").then(function(res) {
+      return assert.equal(res, 1983);
+    });
+  });
+  it("should returns number - relative path", function() {
+    this.slow(1000);
+    return octarine("./helps/coroutine_number").then(function(res) {
+      return assert.equal(res, 1983);
+    });
+  });
+  it("should returns string - absolute path", function() {
+    this.slow(1000);
+    return octarine(__dirname + "/helps/coroutine_string").then(function(res) {
+      return assert.equal(res, "The Colour of Magic");
+    });
+  });
+  it("should returns string - relative path", function() {
+    this.slow(1000);
+    return octarine("./helps/coroutine_string").then(function(res) {
+      return assert.equal(res, "The Colour of Magic");
+    });
+  });
+  it("should returns array - absolute path", function() {
+    this.slow(1000);
+    return octarine(__dirname + "/helps/coroutine_array").then(function(res) {
+      return assert.deepEqual(res, ["Rincewind", "Twoflower", "The Luggage"]);
+    });
+  });
+  it("should returns array - relative path", function() {
+    this.slow(1000);
+    return octarine("./helps/coroutine_array").then(function(res) {
+      return assert.deepEqual(res, ["Rincewind", "Twoflower", "The Luggage"]);
+    });
+  });
+  it("should returns object - absolute path", function() {
+    this.slow(1000);
+    return octarine(__dirname + "/helps/coroutine_object").then(function(res) {
+      return assert.deepEqual(res, {
+        "wizzard": "Rincewind",
+        "tourist": "Twoflower",
+        "chest": "The Luggage"
+      });
+    });
+  });
+  it("should returns object - relative path", function() {
+    this.slow(1000);
+    return octarine("./helps/coroutine_object").then(function(res) {
+      return assert.deepEqual(res, {
+        "wizzard": "Rincewind",
+        "tourist": "Twoflower",
+        "chest": "The Luggage"
+      });
+    });
+  });
+  it("should returns function - absolute path", function() {
+    this.slow(1000);
+    return octarine(__dirname + "/helps/coroutine_function").then(function(res) {
+      assert.equal(res("Rincewind"), "wizzard");
+      assert.equal(res("Twoflower"), "tourist");
+      assert.equal(res("The Luggage"), "chest");
+      return assert.equal(res("???"), "oops");
+    });
+  });
+  return it("should returns function - relative path", function() {
+    this.slow(1000);
+    return octarine("./helps/coroutine_function").then(function(res) {
+      assert.equal(res("Rincewind"), "wizzard");
+      assert.equal(res("Twoflower"), "tourist");
+      assert.equal(res("The Luggage"), "chest");
+      return assert.equal(res("???"), "oops");
+    });
+  });
+});

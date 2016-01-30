@@ -85,7 +85,15 @@ class Worker
      * @param  {String} res
     ###
     ack: (res)=>
-        process.send @._wrapResult(res)
+        _.once process.send @._wrapResult(res)
 
 worker = new Worker()
-worker.start()
+
+if !module.parent
+    worker.start()
+else
+    ###*
+     * Отправка ответа
+     * @type {Function}
+    ###
+    module.exports = worker.ack
