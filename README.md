@@ -44,7 +44,7 @@ co(function* () {
 });
 ```
 
-**of from own file**
+**or from own file**
 
 `main.js`:
 

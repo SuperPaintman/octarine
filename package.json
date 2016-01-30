@@ -1,6 +1,6 @@
 {
   "name": "octarine",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "The actor model for Node.js",
   "main": "bin/master.js",
   "author": {
