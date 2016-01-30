@@ -1,6 +1,6 @@
 {
   "name": "octarine",
-  "version": "0.2.1",
+  "version": "0.2.5",
   "description": "The actor model for Node.js",
   "main": "bin/master.js",
   "author": {
@@ -24,6 +24,7 @@
     "bin",
     "README.md",
     "README",
+    ".npmignore",
     ".gitignore",
     ".travis.yml",
     "appveyor.yml",
