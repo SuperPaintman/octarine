@@ -1,6 +1,6 @@
 {
   "name": "octarine",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "The actor model for Node.js",
   "main": "bin/master.js",
   "author": {
@@ -23,7 +23,13 @@
     "development",
     "bin",
     "README.md",
-    "README"
+    "README",
+    ".gitignore",
+    ".travis.yml",
+    "appveyor.yml",
+    "gulpfile.coffee",
+    "gulpfile.js",
+    "ack.js"
   ],
   "license": "MIT",
   "repository": {
